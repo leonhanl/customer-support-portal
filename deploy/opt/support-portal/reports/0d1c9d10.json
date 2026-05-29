@@ -1,0 +1,27 @@
+{
+  "ticket_id": "0d1c9d10",
+  "profile_name": "Linux Agent Basic Diagnostic",
+  "title": "Linux Agent Diagnostic Report",
+  "matched_rules": [
+    {
+      "id": "AGENT-001",
+      "description": "Agent failed to connect to management server",
+      "severity": "high"
+    },
+    {
+      "id": "AGENT-002",
+      "description": "Authentication token expired",
+      "severity": "medium"
+    },
+    {
+      "id": "SYS-001",
+      "description": "Disk space is low",
+      "severity": "medium"
+    }
+  ],
+  "summary": "Found 3 issue(s).",
+  "recommended_actions": [
+    "Escalate immediately to on-call engineer.",
+    "Review and remediate within 24 hours."
+  ]
+}

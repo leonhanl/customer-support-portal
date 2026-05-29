@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Support Portal — 客户入口{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>关于本系统</h2>
+  <p style="font-size:14px;line-height:1.7;color:#374151;">
+    Customer Support Portal 是一个<strong>客户支持诊断平台</strong>。当您遇到产品问题时，
+    可上传日志包（<code>support-bundle.zip</code>），系统会根据当前诊断规则自动分析日志并生成诊断报告。
+    支持工程师随后会查看报告并协助排查问题。
+  </p>
+</div>
+
+<div class="card">
+  <h2>角色说明</h2>
+  <div class="role-grid">
+    <div class="role-card">
+      <h3>👤 普通客户</h3>
+      <p>上传 <code>support-bundle.zip</code> 日志包，获取 Ticket ID，查看诊断报告。</p>
+    </div>
+    <div class="role-card">
+      <h3>🔧 支持工程师</h3>
+      <p>查看客户日志与诊断报告，协助排查问题。</p>
+    </div>
+    <div class="role-card">
+      <h3>🔑 App Owner</h3>
+      <p>上传或更新 <code>diagnostic-profile.yaml</code> 诊断规则配置（需要 profile-upload-token）。</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>上传日志包</h2>
+  <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">请上传包含 <code>agent.log</code> 或 <code>system.log</code> 的 zip 文件。</p>
+  <form id="uploadForm">
+    <div class="form-group">
+      <label for="bundleFile">选择 support-bundle.zip</label>
+      <input type="file" id="bundleFile" name="bundle" accept=".zip" required>
+    </div>
+    <button type="submit">上传并分析</button>
+  </form>
+  <div id="result"></div>
+</div>
+
+<div class="card">
+  <h2>查询诊断报告</h2>
+  <form id="reportForm">
+    <div class="form-group">
+      <label for="ticketId">Ticket ID</label>
+      <input type="text" id="ticketId" name="ticket_id" placeholder="e.g. a1b2c3d4" required>
+    </div>
+    <button type="submit">查看报告</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const resultDiv = document.getElementById('result');
+  resultDiv.textContent = '分析中...';
+  try {
+    const resp = await fetch('/support/upload', { method: 'POST', body: fd });
+    const data = await resp.json();
+    if (resp.ok) {
+      resultDiv.textContent = '';
+      const msg = document.createElement('div');
+      msg.className = 'alert alert-success';
+      msg.textContent = '✅ 分析完成！Ticket ID: ' + data.ticket_id + ' ';
+      const link = document.createElement('a');
+      link.href = '/support/report/' + data.ticket_id;
+      link.textContent = '查看报告 →';
+      msg.appendChild(link);
+      resultDiv.appendChild(msg);
+    } else {
+      resultDiv.textContent = '';
+      const msg = document.createElement('div');
+      msg.className = 'alert alert-error';
+      msg.textContent = '❌ 上传失败: ' + (data.message || resp.statusText);
+      resultDiv.appendChild(msg);
+    }
+  } catch (err) {
+    resultDiv.textContent = '';
+    const msg = document.createElement('div');
+    msg.className = 'alert alert-error';
+    msg.textContent = '❌ 请求错误: ' + err.message;
+    resultDiv.appendChild(msg);
+  }
+});
+
+document.getElementById('reportForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const tid = document.getElementById('ticketId').value.trim();
+  if (tid) window.location.href = '/support/report/' + encodeURIComponent(tid);
+});
+</script>
+{% endblock %}

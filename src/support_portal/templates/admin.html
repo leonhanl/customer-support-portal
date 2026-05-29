@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}App Owner — Diagnostic Profile Management{% endblock %}
+
+{% block content %}
+<div class="card" style="border-left: 4px solid #b91c1c;">
+  <p style="font-size:13px;font-weight:600;color:#b91c1c;">
+    ⚠ Internal use only — 此页面受 profile-upload-token 保护，仅限 App Owner / Support Admin 访问。
+  </p>
+</div>
+
+<div class="card">
+  <h2>当前 Active Profile</h2>
+  <textarea rows="18" readonly style="font-size:12px;background:#f9fafb;">{{ profile_content }}</textarea>
+</div>
+
+<div class="card">
+  <h2>上传新 Diagnostic Profile</h2>
+  <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">
+    上传后，下一次客户提交 support-bundle 时将使用新规则进行分析。
+  </p>
+  <div class="form-group">
+    <label for="tokenInput">Profile Upload Token</label>
+    <input type="text" id="tokenInput" placeholder="Bearer token">
+  </div>
+  <div class="form-group">
+    <label for="profileContent">diagnostic-profile.yaml 内容</label>
+    <textarea id="profileContent" rows="16" placeholder="profile_name: &#34;My Profile&#34;&#10;version: &#34;1.0&#34;&#10;..."></textarea>
+  </div>
+  <button id="uploadBtn">上传 Profile</button>
+  <div id="uploadResult" style="margin-top:12px;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('uploadBtn').addEventListener('click', async () => {
+  const token = document.getElementById('tokenInput').value.trim();
+  const content = document.getElementById('profileContent').value;
+  const resultDiv = document.getElementById('uploadResult');
+
+  if (!token || !content) {
+    resultDiv.textContent = '';
+    const msg = document.createElement('div');
+    msg.className = 'alert alert-error';
+    msg.textContent = '请填写 token 和 profile 内容。';
+    resultDiv.appendChild(msg);
+    return;
+  }
+
+  resultDiv.textContent = '上传中...';
+  try {
+    const resp = await fetch('/internal/app-owner/profile/upload', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/x-yaml' },
+      body: content,
+    });
+    const data = await resp.json();
+    resultDiv.textContent = '';
+    const msg = document.createElement('div');
+    if (resp.ok) {
+      msg.className = 'alert alert-success';
+      msg.textContent = '✅ Profile 上传成功。';
+    } else {
+      msg.className = 'alert alert-error';
+      msg.textContent = '❌ 失败 (' + resp.status + '): ' + (data.message || resp.statusText);
+    }
+    resultDiv.appendChild(msg);
+  } catch (err) {
+    resultDiv.textContent = '';
+    const msg = document.createElement('div');
+    msg.className = 'alert alert-error';
+    msg.textContent = '❌ 请求错误: ' + err.message;
+    resultDiv.appendChild(msg);
+  }
+});
+</script>
+{% endblock %}

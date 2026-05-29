@@ -1,0 +1,13 @@
+app:
+  name: "Customer Support Portal"
+  mode: "demo"
+
+public_routes:
+  support_bundle_upload: "/support/upload"
+  report_download: "/support/report/{ticket_id}"
+
+internal_routes:
+  diagnostic_profile_upload: "/internal/app-owner/profile/upload"
+
+secrets:
+  profile_upload_token_file: "/opt/support-portal/secrets/profile-upload-token"

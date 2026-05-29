@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}诊断报告 — {{ ticket_id }}{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2>诊断报告</h2>
+  <table style="margin-bottom:16px;">
+    <tr><th style="width:140px;">Ticket ID</th><td><code>{{ report.ticket_id }}</code></td></tr>
+    <tr><th>Profile</th><td>{{ report.profile_name }}</td></tr>
+    <tr><th>报告标题</th><td>{{ report.title }}</td></tr>
+    <tr><th>摘要</th><td>{{ report.summary }}</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>匹配规则（{{ report.matched_rules | length }}）</h2>
+  {% if report.matched_rules %}
+  <table>
+    <thead>
+      <tr><th>规则 ID</th><th>描述</th><th>严重程度</th></tr>
+    </thead>
+    <tbody>
+      {% for rule in report.matched_rules %}
+      <tr>
+        <td><code>{{ rule.id }}</code></td>
+        <td>{{ rule.description }}</td>
+        <td>
+          <span class="badge badge-{{ rule.severity }}">{{ rule.severity }}</span>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p style="color:#6b7280;font-size:14px;">未匹配到任何规则。</p>
+  {% endif %}
+</div>
+
+{% if report.recommended_actions %}
+<div class="card">
+  <h2>建议操作</h2>
+  <ul style="padding-left:20px;font-size:14px;line-height:2;">
+    {% for action in report.recommended_actions %}
+    <li>{{ action }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<p style="font-size:13px;color:#6b7280;margin-top:8px;">
+  <a href="/">← 返回首页</a>
+</p>
+{% endblock %}
