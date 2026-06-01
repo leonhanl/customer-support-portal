@@ -10,4 +10,4 @@ internal_routes:
   diagnostic_profile_upload: "/internal/app-owner/profile/upload"
 
 secrets:
-  profile_upload_token_file: "/opt/support-portal/secrets/profile-upload-token"
+  profile_upload_token_file: "data/secrets/profile-upload-token"
