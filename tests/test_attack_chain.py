@@ -76,7 +76,7 @@ async def test_full_attack_chain(client_with_payload, lab_base: Path, sample_bun
     t.start()
 
     resp = await client.post(
-        "/internal/app-owner/profile/upload",
+        "/internal/admin/profile/upload",
         headers={"Authorization": f"Bearer {token}"},
         data=evil_profile.encode(),
     )

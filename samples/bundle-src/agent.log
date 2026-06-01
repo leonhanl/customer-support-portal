@@ -1,0 +1,11 @@
+2026-05-31 08:12:03 INFO  agent starting up, version 3.4.1 (build 88af201)
+2026-05-31 08:12:03 INFO  loading config from /etc/agent/agent.conf
+2026-05-31 08:12:04 INFO  registering with management server mgmt.corp.example.com:8443
+2026-05-31 08:12:34 WARN  handshake slow, retrying (attempt 1/3)
+2026-05-31 08:13:04 WARN  handshake slow, retrying (attempt 2/3)
+2026-05-31 08:13:34 ERROR failed to reach management server: connection refused
+2026-05-31 08:13:34 ERROR backing off for 60s before next registration attempt
+2026-05-31 08:14:35 INFO  retrying registration with management server
+2026-05-31 08:14:36 ERROR auth handshake rejected: token expired, please re-enroll the agent
+2026-05-31 08:14:36 WARN  entering degraded mode, local buffering enabled
+2026-05-31 08:15:00 INFO  buffered 1423 telemetry events pending upload

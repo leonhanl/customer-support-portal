@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}App Owner — Diagnostic Profile Management{% endblock %}
+{% block title %}Admin — Diagnostic Profile Management{% endblock %}
 
 {% block content %}
 <div class="card" style="border-left: 4px solid #b91c1c;">
   <p style="font-size:13px;font-weight:600;color:#b91c1c;">
-    ⚠ Internal use only — 此页面受 profile-upload-token 保护，仅限 App Owner / Support Admin 访问。
+    ⚠ Internal use only — 此页面受 profile-upload-token 保护，仅限 Admin / Support Admin 访问。
   </p>
 </div>
 
@@ -50,7 +50,7 @@ document.getElementById('uploadBtn').addEventListener('click', async () => {
 
   resultDiv.textContent = '上传中...';
   try {
-    const resp = await fetch('/internal/app-owner/profile/upload', {
+    const resp = await fetch('/internal/admin/profile/upload', {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/x-yaml' },
       body: content,

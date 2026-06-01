@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Generates the evil diagnostic-profile.yaml payload for the PyYAML CVE demo.
-# Run this on the attacker machine before the demo.
+# Run this on demo-attacker before the demo.
 #
 # Usage: ./generate-evil-profile.sh [c2-host] [c2-port]
 #   c2-host: defaults to demo-c2.local

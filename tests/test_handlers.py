@@ -31,7 +31,7 @@ async def test_admin_page(client):
     resp = await client.get("/admin")
     assert resp.status == 200
     text = await resp.text()
-    assert "App Owner" in text or "profile" in text.lower()
+    assert "Admin" in text or "profile" in text.lower()
 
 
 @pytest.mark.asyncio
@@ -77,7 +77,7 @@ async def test_report_json(client, sample_bundle):
 @pytest.mark.asyncio
 async def test_profile_upload_wrong_token(client):
     resp = await client.post(
-        "/internal/app-owner/profile/upload",
+        "/internal/admin/profile/upload",
         headers={"Authorization": "Bearer wrong-token"},
         data=b"profile_name: test\n",
     )
@@ -87,7 +87,7 @@ async def test_profile_upload_wrong_token(client):
 @pytest.mark.asyncio
 async def test_profile_upload_correct_token(client, lab_base):
     resp = await client.post(
-        "/internal/app-owner/profile/upload",
+        "/internal/admin/profile/upload",
         headers={"Authorization": "Bearer test-token-abc"},
         data=b"profile_name: updated\nversion: '2.0'\nrules: []\nreport: {title: T}\n",
     )

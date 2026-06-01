@@ -19,7 +19,7 @@ def lab_base(tmp_path: Path) -> Path:
     config = {
         "app": {"name": "Customer Support Portal", "mode": "demo"},
         "public_routes": {"support_bundle_upload": "/support/upload"},
-        "internal_routes": {"diagnostic_profile_upload": "/internal/app-owner/profile/upload"},
+        "internal_routes": {"diagnostic_profile_upload": "/internal/admin/profile/upload"},
         "secrets": {"profile_upload_token_file": str(base / "secrets" / "profile-upload-token")},
     }
     (base / "config" / "app_config.yaml").write_text(yaml.dump(config))
