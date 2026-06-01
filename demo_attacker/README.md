@@ -72,7 +72,7 @@ TARGET=$VICTIM_IP:8080 ./02-traversal-config.sh
 
 #### 5.（离线）解析配置以找到令牌文件路径
 
-从配置中得到：`/opt/support-portal/secrets/profile-upload-token`
+从配置中得到：`data/secrets/profile-upload-token`
 
 #### 6. 目录遍历 → 窃取令牌
 
