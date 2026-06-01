@@ -27,10 +27,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 pip install -e .
 
-# 3. 准备本地 demo 文件目录
-export SUPPORT_PORTAL_BASE="$(pwd)/deploy/opt/support-portal"
-
-# 4. 启动应用
+# 3. 启动应用
 python -m support_portal
 # → http://localhost:8080
 ```
@@ -43,27 +40,9 @@ python -m support_portal
 
 ```
 src/support_portal/    应用源码
-deploy/                Linux VM 部署文件（systemd + install.sh）
 demo_c2/               C2 listener（VM-2 部署）
 attack/                攻击演示脚本（12 步 walkthrough）
 tests/                 单元 + 端到端测试
-```
-
-## 完整 VM 部署
-
-### VM-1（support-portal）
-
-```bash
-# 需要 root
-sudo bash deploy/install.sh
-sudo systemctl start support-portal
-```
-
-### VM-2（demo-c2）
-
-```bash
-# 确保 demo-c2.local 在 VM-1 的 /etc/hosts 中指向 VM-2
-python3 demo_c2/listener.py
 ```
 
 ## 运行测试
