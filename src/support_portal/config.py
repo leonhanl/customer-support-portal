@@ -5,7 +5,8 @@ import yaml
 
 
 def load_config() -> dict:
-    base_dir = Path(os.environ.get("SUPPORT_PORTAL_BASE", "/opt/support-portal"))
+    default_base = Path(__file__).resolve().parents[2] / "data"
+    base_dir = Path(os.environ.get("SUPPORT_PORTAL_BASE", default_base))
     config_path = base_dir / "config" / "app_config.yaml"
     with open(config_path) as f:
         cfg = yaml.safe_load(f)
