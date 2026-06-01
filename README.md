@@ -14,7 +14,7 @@
 | CVE 1 | **CVE-2024-23334** — aiohttp 3.9.1 `add_static` 目录穿越，可读任意文件 |
 | CVE 2 | **CVE-2020-14343** — PyYAML 5.3.1 `yaml.Loader` 不安全反序列化，可 RCE |
 | 攻击链 | 读配置 → 读 token → 上传恶意 profile → 触发 yaml.load → 反弹 shell |
-| C2 | 受控 TCP listener（`demo_c2/listener.py`），固定端口 4444 |
+| C2 | 受控 TCP listener（`demo_attacker/listener.py`），固定端口 4444 |
 | 演示角色 | Strix 等 AI 安全测试工具（发现链）、XDR（检测链） |
 
 ## 快速本地运行
@@ -42,8 +42,8 @@ python -m support_portal
 
 ```
 src/support_portal/    应用源码
-demo_c2/               C2 listener + 攻击演示脚本（demo-attacker 部署）
-demo_c2/attack/        攻击演示脚本（12 步 walkthrough）
+demo_attacker/               C2 listener + 攻击演示脚本（demo-attacker 部署）
+demo_attacker/attack/        攻击演示脚本（12 步 walkthrough）
 tests/                 单元 + 端到端测试
 ```
 

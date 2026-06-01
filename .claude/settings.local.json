@@ -4,7 +4,7 @@
       "Bash(pip list *)",
       "Bash(pip index *)",
       "Bash(chmod +x /Users/leon/customer-support-portal/deploy/install.sh)",
-      "Bash(chmod +x /Users/leon/customer-support-portal/demo_c2/listener.py)",
+      "Bash(chmod +x /Users/leon/customer-support-portal/demo_attacker/listener.py)",
       "Bash(chmod +x /Users/leon/customer-support-portal/attack/generate-evil-profile.sh)"
     ]
   }
