@@ -54,20 +54,6 @@ pip install pytest pytest-asyncio
 pytest tests/ -v
 ```
 
-## XDR 检测点
-
-XDR 在主机侧可观察到的行为链：
-
-1. 外部源对 8080 端口扫描 + `/static/../*` 异常路径访问
-2. aiohttp 进程读取 `/opt/support-portal/config/*`（正常范围之外）
-3. aiohttp 进程读取 `/opt/support-portal/secrets/*`
-4. `/internal/admin/profile/upload` 被外部 IP 调用
-5. `profiles/active.yaml` 被非预期覆盖
-6. Python 进程执行 `yaml.load` 触发 `!!python/object/apply` 反序列化
-7. `python` → `bash -i` 子进程 spawn
-8. `bash` 进程到 `demo-c2.local:4444` 异常外连
-9. 以上事件被关联为单一攻击链
-
 ## 安全声明
 
 本项目**不包含**：

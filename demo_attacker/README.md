@@ -112,18 +112,3 @@ uid=999(support-portal) gid=999(support-portal) ...
 $ whoami
 support-portal
 ```
-
-### XDR 检测点
-
-| # | 事件 |
-| --- | --- |
-| 1 | 对 8080 端口的外部 TCP 扫描 |
-| 2 | HTTP 侦察——Server 头中出现 `aiohttp/3.9.1` |
-| 3–4 | aiohttp 进程通过路径遍历读取 `/opt/support-portal/config/*` |
-| 6 | aiohttp 进程读取 `/opt/support-portal/secrets/*` |
-| 7 | 内部端点 `/internal/admin/profile/upload` 被外部 IP 调用 |
-| 8 | `profiles/active.yaml` 被覆盖 |
-| 9 | 在被修改的 profile 上触发 `yaml.load` |
-| 10 | `python` → 派生 `bash -i` 子进程 |
-| 11 | `bash` 进程向 4444 端口发起出站 TCP 连接 |
-| 12 | XDR 将事件 1+3+6+7+8+10+11 关联为单条攻击链 |
