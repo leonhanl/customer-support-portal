@@ -6,6 +6,30 @@
 > 所有漏洞利用结果均为受控行为，目的是演示 AI 安全测试工具与 XDR 的能力。
 > **禁止部署至生产环境。**
 
+## 第一步：选择机器角色（git clone 后立即执行）
+
+仓库同时包含**受害者（victim）应用本体**和**攻击者（attacker）演示工具**。
+`git clone` 之后，**必须先运行下面其中一个脚本**，以确定当前机器扮演什么角色。
+脚本执行后会删除自身（`make-it-for-*.sh`），保证形态唯一、不可混用。
+
+| 脚本 | 角色 | 作用 |
+|---|---|---|
+| `make-it-for-attacker.sh` | **攻击者机** | 把 `demo_attacker/` 的内容提升为整个仓库根目录，**清空其余文件**（保留 `.git`）。只保留 C2 listener 与攻击演示脚本。 |
+| `make-it-for-victim.sh` | **受害者机** | 删除 `demo_attacker/`、攻击链测试（`tests/test_attack_chain.py`）和当前 README，用纯应用版 `README_AppOnly.md` 替换为 `README.md`。只保留干净的应用本体。 |
+
+```bash
+# 在受害者机上执行：
+bash make-it-for-victim.sh
+
+# 或，在攻击者机上执行：
+bash make-it-for-attacker.sh
+```
+
+> ⚠ **注意：**
+> - 两个脚本都会**删除文件**（`make-it-for-attacker.sh` 会清空除 `.git` 外的整个目录）。误删后可重新 `git clone` 恢复。
+> - 每台机器只应运行**其中一个**脚本，且只运行一次。
+> - 选择受害者角色后，请参考替换后的 `README.md`（即原 `README_AppOnly.md`）继续操作。下文的「快速本地运行」等说明针对**受害者机**。
+
 ## 项目定位
 
 | 属性 | 说明 |
